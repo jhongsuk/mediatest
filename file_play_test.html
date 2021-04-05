@@ -1,0 +1,220 @@
+<html lang="kr" dir="ltr">
+  <head>
+    <style type ="text/css">
+      #screenDiv{
+        position: relative;
+      }
+      #controlDiv{
+        position: relative;
+        top: -1080px;
+      }
+      #myVideo{
+        width: 1920;
+        height: 1080;
+      }
+      #controlDiv button{
+        -webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+        -moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+        -ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+        -o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+        transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+        text-decoration: none;
+        border-radius: 4px;
+        padding: 10px 10px;
+        color: rgba(22, 154, 30, 0.6);
+        box-shadow: rgba(22, 154, 30, 0.4) 0 0px 0px 2px inset;
+      }
+      #controlDiv button:hover{
+        -webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+        -moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+        -ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+        -o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+        transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+        text-decoration: none;
+        border-radius: 4px;
+        padding: 20px 20px;
+        color: rgba(255, 255, 255, 0.85);
+        box-shadow: rgba(22, 154, 30, 0.7) 0 0px 0px 40px inset;
+      }
+      #controlDiv select{
+        padding: .8em .5em;
+        border: 1px solid #999;
+        font-family: inherit;
+        border-radius: 0px;
+        background: rgba(30, 30, 30, 0.6);
+        color:#fff;
+        text-shadow:0 1px 0 rgba(0, 0, 0, 0.4);
+        font-size: 15;
+      }
+      </style>
+  </head>
+
+  <body style="margin:0; background-color:lightgreen" onkeypress="keypress()">
+    <div id="screenDiv">
+      <video id="myVideo">
+        <source id ="playersource">
+      </video>
+    </div>
+    <div id="controlDiv">
+      </br>
+      <select id="selectTestScenario">
+        <optgroup label="Scenario based test case">
+          <option value="Scenario1">Playback</option>
+          <option value="Scenario2">Pause/Resume Test</option>
+          <option value="Scenario3">Seek Test</option>
+          <option value="Scenario4">Audio Track Change</option>
+          <option value="Scenario5">HLG/HDR Test</option>
+        </optgroup>
+      </select>
+      </br>
+      </br>
+      <button id="defaultButton" onclick="playDefaultVideo()" type="button">Test Default Video</button>
+      <button id="testRunButton" onclick="runTestScenario()" type="button">Run Test Scenario</button>
+      <button id="testStopButton" onclick="stopRunningTest()" type="button">Stop Running Test</button>
+
+      <pre id='output'></pre>
+      <pre id='playlist'></pre>
+      <pre id='currentfilename'></pre>
+      </br>
+      <pre id='debugmsg'></pre>
+
+
+    </div>
+
+    <script type="text/javascript">
+      //let mediaFilePath = "http://mspartserver.synology.me/test-streams/genericav/";
+      let mediaFilePath = "/Users/hong4/Downloads/TestMedia/";
+
+      function makeOption() {
+        let options = {};
+        options.htmlMediaOption = {};
+        options.htmlMediaOption.useUMSMediaInfo = true;
+        options.htmlMediaOption.useMediaPlayerManager = false;
+        options.option = {};
+        options.option.useSoftwareAudioDecoder = true;
+        options.option.avSink = {};
+        options.option.avSink.videoSink = {};
+        options.option.avSink.audioSink = {};
+        options.option.avSink.videoSink.type = "graphic";
+        return options;
+      }
+
+      function disableAudio(target) {
+        let vid = document.getElementById(target);
+        let msg = {};
+        msg.command = "SetSink";
+        msg.parameter = {};
+        msg.parameter.audioSink = {};
+        vid.send(JSON.stringify(msg));
+      }
+
+      function enableAudio(target) {
+        let vid = document.getElementById(target);
+        let msg = {};
+        msg.command = "SetSink";
+        msg.parameter = {};
+        msg.parameter.audioSink = {};
+        msg.parameter.audioSink.type = "main_sound";
+        vid.send(JSON.stringify(msg));
+      }
+
+      function muteOn() {
+          disableAudio("myVideo");
+      }
+
+      function muteOff() {
+          enableAudio("myVideo");
+      }
+      function setSource(target, options) {
+        let source = document.getElementById('playersource');
+        source.setAttribute("src", target);
+        source.setAttribute('type', 'video/mp4;mediaOption=' + escape(JSON.stringify(options)));
+      }
+
+      function playDefaultVideo() {
+        let options = makeOption();
+        let vid = document.getElementById("myVideo");
+        setSource(`${mediaFilePath}Big_Buck_Bunny.mp4`, options);
+        vid.load();
+        vid.play();
+        vid.onended = function() {
+          //let vid = document.getElementById("myVideo");
+          vid.currentTime = 0;
+          vid.play();
+        }
+      }
+
+      function runTestScenario() {
+        let vid = document.getElementById("myVideo");
+        let options = makeOption();
+
+        let url = 'https://raw.githubusercontent.com/jhongsuk/mediatest/main/testmediafile.xml'
+
+        fetch(url)
+        .then(response=>response.text())
+        .then(data=>{
+          let parse = new DOMParser();
+          //let myxmlDoc = parse.parseFromString(data,'application/xml');
+          let xmlDoc = parse.parseFromString(data,'text/xml');
+          document.getElementById('output').textContent = data;
+          buildPlayList(xmlDoc);
+        });
+      }
+
+      //try to make multiple file playback.
+      function buildPlayList(xmlDoc) {
+        let playlist = xmlDoc.getElementsByTagName('name');
+        let vid = document.getElementById("myVideo");
+        let options = makeOption();
+        var filelist = [];
+
+        for(var i=0; i<playlist.length; i++){
+          flelist[i] = playlist[i].firstChild.nodeValue;
+
+        }
+      }
+
+      /*function buildPlayList(xmlDoc) {
+        let testgroup1 = xmlDoc.getElementsByTagName('testgroup1');
+        let playlist = xmlDoc.getElementsByTagName('name');
+        document.getElementById('debugmsg').textContent = playlist[0].firstChild.nodeValue;
+
+        for(var i=0; i<playlist.length; i++){
+          startPlayback(playlist[i].firstChild.nodeValue);
+          document.getElementById('currentfilename').textContent = playlist[i].firstChild.nodeValue;
+        }
+        vid.
+      }
+
+      function startPlayback(url) {
+
+        let vid = document.getElementById("myVideo");
+        let options = makeOption();
+        setSource(`${mediaFilePath}${url}`,options);
+        vid.load();
+        vid.play();
+        vid.onended = function(){
+          alert("This video finished");
+        }
+      }*/
+
+      function stopRunningTest() {
+        //TBD
+        let vid = document.getElementById("myVideo");
+        let options = makeOption();
+        vid.unload();
+      }
+
+      function keypress() {
+        let keycode = event.keyCode;
+        if (keycode == 48) { //number 0
+          location.href='media_test.html';
+        } else if (keycode == 49) { //number 1
+          playDefaultVideo();
+        } else if (keycode == 50) { //number 2
+          runTestScenario();
+        }
+      }
+    </script>
+  </body>
+</html>
