@@ -1,52 +1,7 @@
 <html lang="kr" dir="ltr">
   <head>
-    <style type ="text/css">
-      #screenDiv{
-        position: relative;
-      }
-      #controlDiv{
-        position: relative;
-        top: -1080px;
-      }
-      #myVideo{
-        width: 1920;
-        height: 1080;
-      }
-      #controlDiv button{
-        -webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
-        -moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
-        -ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
-        -o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
-        transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
-        text-decoration: none;
-        border-radius: 4px;
-        padding: 10px 10px;
-        color: rgba(22, 154, 30, 0.6);
-        box-shadow: rgba(22, 154, 30, 0.4) 0 0px 0px 2px inset;
-      }
-      #controlDiv button:hover{
-        -webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
-        -moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
-        -ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
-        -o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
-        transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
-        text-decoration: none;
-        border-radius: 4px;
-        padding: 12px 12px;
-        color: rgba(255, 255, 255, 0.85);
-        box-shadow: rgba(22, 154, 30, 0.7) 0 0px 0px 40px inset;
-      }
-      #controlDiv select{
-        padding: .8em .5em;
-        border: 1px solid #999;
-        font-family: inherit;
-        border-radius: 0px;
-        background: rgba(30, 30, 30, 0.6);
-        color:#fff;
-        text-shadow:0 1px 0 rgba(0, 0, 0, 0.4);
-        font-size: 15;
-      }
-      </style>
+    <link rel="stylesheet" href="./css/mediatest.css" type="text/css">
+    <script type="text/javascript" src="./js/fileplay_test.js"></script>
   </head>
 
   <body style="margin:0; background-color:lightgreen" onkeypress="keypress()">
@@ -57,15 +12,13 @@
     </div>
     <div id="controlDiv">
       </br>
-      <select id="selectTestScenario">
-        <optgroup label="Scenario based test case">
-          <option value="Scenario1">Playback</option>
-          <option value="Scenario2">Pause/Resume Test</option>
-          <option value="Scenario3">Seek Test</option>
-          <option value="Scenario4">Audio Track Change</option>
-          <option value="Scenario5">HLG/HDR Test</option>
-        </optgroup>
-      </select>
+      <input type="checkbox" name="scenario" value="play"/> Play
+      <input type="checkbox" name="scenario" value="pause"/> Pause
+      <input type="checkbox" name="scenario" value="seek"/> Seek
+      <input type="checkbox" name="scenario" value="ff"/> FF
+      <input type="checkbox" name="scenario" value="rew"/> REW
+      <button onclick="getCheckboxValue()">"확인"</button>
+      <div id='result'></div>
       </br>
       </br>
       <button id="defaultButton" onclick="playDefaultVideo()" type="button">Test Default Video</button>
@@ -78,8 +31,6 @@
       </br>
       <pre id='debugmsg'></pre>
     </div>
-
-    <script type="text/javascript" src="./js/fileplay_test.js"></script>
 
   </body>
 </html>
