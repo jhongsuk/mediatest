@@ -60,6 +60,18 @@ function playDefaultVideo() {
   }
 }
 
+function getCheckboxValue() {
+  const query = 'input[name="scenario"]:checked';
+  const selectedEls = document.querySelectorAll(query);
+
+  let result = '';
+  selectedEls.forEach((el) => {
+    result += el.value + ' ';
+  });
+
+  document.getElementById('result').innerText = result;
+}
+
 function runTestScenario() {
   let vid = document.getElementById("myVideo");
   let options = makeOption();
