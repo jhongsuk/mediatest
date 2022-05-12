@@ -1,6 +1,22 @@
 //let mediaFilePath = "http://mspartserver.synology.me/test-streams/genericav/";
 let mediaFilePath = "/Users/hong4/Downloads/TestMedia/";
 
+const input = document.querySelector('input');
+const preview = document.querySelector('.file_list');
+
+input.addEventListener('change', showTextFile);
+
+function showTestFile() {
+  const selectedFiles = input.files;
+  const list = document.createElement('ul');
+  preview.appendChild(list);
+
+  for(const file of selectedFiles) {
+    const listItem = document.createElement('li');
+    const summary = document.createElement('div');
+  }
+}
+
 function makeOption() {
   let options = {};
   options.htmlMediaOption = {};
@@ -84,7 +100,7 @@ function runTestScenario() {
   .then(data=>{
     let parse = new DOMParser();
     let xmlDoc = parse.parseFromString(data,'text/xml');
-    document.getElementById('output').textContent = data;
+    document.getElementById('outputDiv').textContent = data;
     videoSource = buildPlayList(xmlDoc);
     startPlayback(videoSource);
   });

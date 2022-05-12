@@ -11,19 +11,34 @@
       </video>
     </div>
     <div id="controlDiv">
+      <button id="reloadButton" onclick="location.href='file_play_test.html'" type="button">F5</button>
+      <button id="backButton" onclick="location.href='media_test.html'" type="button">Back</button>
+      </br>
+      </br>
+      <div>
+        <input type="file" id="directory_select" webkitdirectory>
+      </div>
+      <div class="file_list">
+        <p></p>
+      </div>
+
+      </br>
+      <button id="defaultButton" onclick="playDefaultVideo()" type="button">Test Default Video</button>
+      <button id="testRunButton" onclick="runTestScenario()" type="button">Run Test Scenario</button>
+      <button id="testStopButton" onclick="stopRunningTest()" type="button">Stop Running Test</button>
+      </br>
+      
       </br>
       <input type="checkbox" name="scenario" value="play"/> Play
       <input type="checkbox" name="scenario" value="pause"/> Pause
       <input type="checkbox" name="scenario" value="seek"/> Seek
       <input type="checkbox" name="scenario" value="ff"/> FF
       <input type="checkbox" name="scenario" value="rew"/> REW
-      <button onclick="getCheckboxValue()">"확인"</button>
+      <button onclick="getCheckboxValue()">Check</button>
       <div id='result'></div>
       </br>
-      </br>
-      <button id="defaultButton" onclick="playDefaultVideo()" type="button">Test Default Video</button>
-      <button id="testRunButton" onclick="runTestScenario()" type="button">Run Test Scenario</button>
-      <button id="testStopButton" onclick="stopRunningTest()" type="button">Stop Running Test</button>
+
+      <textarea id="outputDiv" rows="50"></textarea>
 
       <pre id='output'></pre>
       <pre id='playlist'></pre>

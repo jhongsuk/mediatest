@@ -7,6 +7,8 @@
 #controlDiv{
   position: relative;
   top: -1080px;
+  margin-left: 10px;
+  margin-top: 10px;
 }
 
 #myVideo{
@@ -22,7 +24,7 @@
   transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
   text-decoration: none;
   border-radius: 4px;
-  padding: 10px 10px;
+  padding: 7px 7px;
   color: rgba(22, 154, 30, 0.6);
   box-shadow: rgba(22, 154, 30, 0.4) 0 0px 0px 2px inset;
 }
@@ -35,7 +37,7 @@
   transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
   text-decoration: none;
   border-radius: 4px;
-  padding: 12px 12px;
+  padding: 8px 8px;
   color: rgba(255, 255, 255, 0.85);
   box-shadow: rgba(22, 154, 30, 0.7) 0 0px 0px 40px inset;
 }
@@ -44,6 +46,7 @@
   padding: .8em .5em;
   border: 1px solid #999;
   font-family: inherit;
+  margin-left: 10px;
   border-radius: 0px;
   background: rgba(30, 30, 30, 0.6);
   color:#fff;
@@ -51,3 +54,17 @@
   font-size: 15;
 }
 
+#outputDiv {
+  position: relative;
+  width: 50%;
+  height: 300px;
+  border-left: 0px;
+  border-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  display: block;
+  background-color: transparent;
+  color: black;
+  font-family: 'Lucida Console', Monaco, monospace;
+  outline: black;
+}
