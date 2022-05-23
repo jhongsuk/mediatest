@@ -63,8 +63,8 @@
   padding-left: 0px;
   padding-right: 0px;
   display: block;
-  background-color: transparent;
-  color: black;
+  background-color: black;
+  color: white;
   font-family: 'Lucida Console', Monaco, monospace;
-  outline: black;
+  outline: none;
 }

@@ -85,7 +85,7 @@ function getCheckboxValue() {
     result += el.value + ' ';
   });
 
-  document.getElementById('result').innerText = result;
+  document.getElementById('outputDiv').textContent = result;
 }
 
 function runTestScenario() {
