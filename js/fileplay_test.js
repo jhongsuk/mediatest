@@ -1,5 +1,5 @@
 //let mediaFilePath = "http://mspartserver.synology.me/test-streams/genericav/";
-let mediaFilePath = "/Users/hong4/Downloads/TestMedia/";
+let mediaFilePath = "C:/TestMedia/";
 
 const input = document.querySelector('input');
 const preview = document.querySelector('.file_list');
@@ -92,7 +92,7 @@ function runTestScenario() {
   let vid = document.getElementById("myVideo");
   let options = makeOption();
   var videoSource = new Array();
-
+/*
   let url = 'https://raw.githubusercontent.com/jhongsuk/mediatest/main/testmediafile.xml'
 
   fetch(url)
@@ -104,6 +104,16 @@ function runTestScenario() {
     videoSource = buildPlayList(xmlDoc);
     startPlayback(videoSource);
   });
+*/
+  
+  var mydata = JSON.parse(contents);
+  console.log(mydata[0].name);
+  console.log(mydata[0].video);
+  console.log(mydata[1].name);
+  console.log(mydata[1].video);
+  console.log(mydata[2].name);
+  console.log(mydata[2].video);
+
 }
 
 function buildPlayList(xmlDoc) {
