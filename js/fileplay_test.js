@@ -14,6 +14,9 @@ function showTestFile() {
   for(const file of selectedFiles) {
     const listItem = document.createElement('li');
     const summary = document.createElement('div');
+    summary.textContent = file.webkitRelativePath;
+    listItem.appendChild(summary);
+    list.appendChild(listItem);
   }
 }
 
