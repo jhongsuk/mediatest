@@ -1,24 +1,17 @@
 //let mediaFilePath = "http://mspartserver.synology.me/test-streams/genericav/";
 let mediaFilePath = "C:/TestMedia/";
 
-const input = document.querySelector('input');
-const preview = document.querySelector('.file_list');
+document.getElementById("filepicker").addEventListener("change", function(event) {
+//  let output = document.getElementById("listing");
+  let files = event.target.files;
+  let result = '';
 
-input.addEventListener('change', showTextFile);
-
-function showTestFile() {
-  const selectedFiles = input.files;
-  const list = document.createElement('ul');
-  preview.appendChild(list);
-
-  for(const file of selectedFiles) {
-    const listItem = document.createElement('li');
-    const summary = document.createElement('div');
-    summary.textContent = file.webkitRelativePath;
-    listItem.appendChild(summary);
-    list.appendChild(listItem);
-  }
-}
+  for (let i=0; i<files.length; i++) {
+    result += files[i].webkitRelativePath;
+    result += '\n';
+  };
+  document.getElementById('outputDiv').textContent = result;
+}, false);
 
 function makeOption() {
   let options = {};
@@ -32,33 +25,6 @@ function makeOption() {
   options.option.avSink.audioSink = {};
   options.option.avSink.videoSink.type = "graphic";
   return options;
-}
-
-function disableAudio(target) {
-  let vid = document.getElementById(target);
-  let msg = {};
-  msg.command = "SetSink";
-  msg.parameter = {};
-  msg.parameter.audioSink = {};
-  vid.send(JSON.stringify(msg));
-}
-
-function enableAudio(target) {
-  let vid = document.getElementById(target);
-  let msg = {};
-  msg.command = "SetSink";
-  msg.parameter = {};
-  msg.parameter.audioSink = {};
-  msg.parameter.audioSink.type = "main_sound";
-  vid.send(JSON.stringify(msg));
-}
-
-function muteOn() {
-  disableAudio("myVideo");
-}
-
-function muteOff() {
-  enableAudio("myVideo");
 }
 
 function setSource(target, options) {
