@@ -1,8 +1,50 @@
 //let mediaFilePath = "http://mspartserver.synology.me/test-streams/genericav/";
-let mediaFilePath = "C:/TestMedia/";
+let mediaFilePath = "/home/hong/testmedia/";
+//let mediaFilePath = "C:/TestMedia/";
+
+let data = [
+  {
+    "id": 1, 
+    "container":["mp4","mpeg4"], 
+    "video":["avc","avc1","h264"], 
+    "audio":["aac"], 
+    "resolution":["1920x800"], 
+    "framerate": 25, 
+    "duration": 129, 
+    "subtitle":[""], 
+    "name": "Girls_Day_Dont_forget_me_mv_1080p.mp4", 
+    "others":["socts","ccc","salmon","sanity","irc", "tvplat-144892"]
+  },
+  { 
+    "id": 2, 
+    "container":["mp4","mpeg4"], 
+    "video":["avc","avc1","h264"], 
+    "audio":["aac"], 
+    "resolution":["1920x800"], 
+    "framerate": 25, 
+    "duration": 129, 
+    "subtitle":[""], 
+    "name": "2D_APINK_NoNoNo.ts", 
+    "others":["socts","ccc","salmon","sanity","irc", "tvplat-144892"]
+  }, 
+  { 
+    "id": 3, 
+    "container":["mp4","mpeg4"], 
+    "video":["avc","avc1","h264"], 
+    "audio":["aac"], 
+    "resolution":["1920x800"], 
+    "framerate": 25, 
+    "duration": 129, 
+    "subtitle":[""], 
+    "name": "Big_Buck_Bunny_UHD.mp4", 
+    "others":["socts","ccc","salmon","sanity","irc", "tvplat-144892"]
+  }
+];
+                
+              
+
 
 document.getElementById("filepicker").addEventListener("change", function(event) {
-//  let output = document.getElementById("listing");
   let files = event.target.files;
   let result = '';
 
@@ -36,7 +78,7 @@ function setSource(target, options) {
 function playDefaultVideo() {
   let options = makeOption();
   let vid = document.getElementById("myVideo");
-  setSource(`${mediaFilePath}Big_Buck_Bunny.mp4`, options);
+  setSource(`${mediaFilePath}${data[0].name}`, options);
   vid.load();
   vid.play();
   vid.onended = function() {
@@ -75,6 +117,17 @@ function runTestScenario() {
   });
 */
   
+  console.log(data[0].id);
+  console.log(data[0].name);
+  console.log(data[0].video);
+  console.log(data[1].id);
+  console.log(data[1].name);
+  console.log(data[1].video);
+  console.log(data[2].id);
+  console.log(data[2].name);
+  console.log(data[2].video);
+  
+
   var mydata = JSON.parse(contents);
   console.log(mydata[0].name);
   console.log(mydata[0].video);
