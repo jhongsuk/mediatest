@@ -1,8 +1,8 @@
 //let mediaFilePath = "http://mspartserver.synology.me/test-streams/genericav/";
-let mediaFilePath = "/home/hong/testmedia/";
-//let mediaFilePath = "C:/TestMedia/";
+//let mediaFilePath = "/home/hong/testmedia/";
+let mediaFilePath = "C:/TestMedia/";
 
-let data = [
+let data1 = [
   {
     "id": 1, 
     "container":["mp4","mpeg4"], 
@@ -41,7 +41,56 @@ let data = [
   }
 ];
                 
-              
+let data2 = [
+  {
+    "id": 1, 
+    "container":["mp4","mpeg4"], 
+    "video":["avc","avc1","h264"], 
+    "audio":["aac"], 
+    "resolution":["1920x800"], 
+    "framerate": 25, 
+    "duration": 129, 
+    "subtitle":[""], 
+    "name": "Dubai_UAE.mp4", 
+    "others":["socts","ccc","salmon","sanity","irc", "tvplat-144892"]
+  },
+  { 
+    "id": 2, 
+    "container":["mp4","mpeg4"], 
+    "video":["avc","avc1","h264"], 
+    "audio":["aac"], 
+    "resolution":["1920x800"], 
+    "framerate": 25, 
+    "duration": 129, 
+    "subtitle":[""], 
+    "name": "Hong_Kong.mp4", 
+    "others":["socts","ccc","salmon","sanity","irc", "tvplat-144892"]
+  }, 
+  { 
+    "id": 3, 
+    "container":["mp4","mpeg4"], 
+    "video":["avc","avc1","h264"], 
+    "audio":["aac"], 
+    "resolution":["1920x800"], 
+    "framerate": 25, 
+    "duration": 129, 
+    "subtitle":[""], 
+    "name": "New_York_City.mp4", 
+    "others":["socts","ccc","salmon","sanity","irc", "tvplat-144892"]
+  },
+  { 
+    "id": 4, 
+    "container":["mp4","mpeg4"], 
+    "video":["avc","avc1","h264"], 
+    "audio":["aac"], 
+    "resolution":["1920x800"], 
+    "framerate": 25, 
+    "duration": 129, 
+    "subtitle":[""], 
+    "name": "Travel_Seoul.mp4", 
+    "others":["socts","ccc","salmon","sanity","irc", "tvplat-144892"]
+  }
+];              
 
 
 document.getElementById("filepicker").addEventListener("change", function(event) {
@@ -69,22 +118,31 @@ function makeOption() {
   return options;
 }
 
-function setSource(target, options) {
+function playUrl(url) {
+  let options = makeOption();
+  let vid = document.getElementById('myVideo');
   let source = document.getElementById('playersource');
-  source.setAttribute("src", target);
+
+  document.getElementById('outputDiv').textContent = url;
+  source.setAttribute("src", url);
   source.setAttribute('type', 'video/mp4;mediaOption=' + escape(JSON.stringify(options)));
+  vid.load();
+  vid.play();
+//    vid.onended = function() {
+//    vid.currentTime = 0;
+//    vid.play();
+//  }
 }
 
 function playDefaultVideo() {
-  let options = makeOption();
-  let vid = document.getElementById("myVideo");
-  setSource(`${mediaFilePath}${data[0].name}`, options);
-  vid.load();
-  vid.play();
-  vid.onended = function() {
-    vid.currentTime = 0;
-    vid.play();
-  }
+  let playlist = data2;
+  let url = '';
+
+  playUrl(`${mediaFilePath}${playlist[0].name}`);
+  playUrl(`${mediaFilePath}${playlist[1].name}`);
+  playUrl(`${mediaFilePath}${playlist[2].name}`);
+
+
 }
 
 function getCheckboxValue() {
