@@ -1,6 +1,6 @@
 //let mediaFilePath = "http://mspartserver.synology.me/test-streams/genericav/";
-//let mediaFilePath = "/home/hong/testmedia/";
-let mediaFilePath = "C:/TestMedia/";
+let mediaFilePath = "/home/hong/testmedia/";
+//let mediaFilePath = "C:/TestMedia/";
 
 let data1 = [
   {
@@ -120,27 +120,33 @@ function makeOption() {
 
 function playUrl(url) {
   let options = makeOption();
+//  let vid = document.getElementById('myVideo').addEventListener('ended', , false);
   let vid = document.getElementById('myVideo');
   let source = document.getElementById('playersource');
 
   document.getElementById('outputDiv').textContent = url;
   source.setAttribute("src", url);
   source.setAttribute('type', 'video/mp4;mediaOption=' + escape(JSON.stringify(options)));
+
   vid.load();
-  vid.play();
-//    vid.onended = function() {
-//    vid.currentTime = 0;
-//    vid.play();
-//  }
+  var playPromise = vid.play();
+  if (playPromise != undefined) {
+    playPromise.then(_ => {
+      document.getElementById('outputDiv').textContent = "Playing...";
+    })
+    .catch(error => {
+      document.getElementById('outputDiv').textContent = "Failed...";
+    });
+  } 
 }
 
 function playDefaultVideo() {
-  let playlist = data2;
+  let playlist = data1;
   let url = '';
 
-  playUrl(`${mediaFilePath}${playlist[0].name}`);
-  playUrl(`${mediaFilePath}${playlist[1].name}`);
   playUrl(`${mediaFilePath}${playlist[2].name}`);
+  playUrl(`${mediaFilePath}${playlist[1].name}`);
+  playUrl(`${mediaFilePath}${playlist[0].name}`);
 
 
 }
