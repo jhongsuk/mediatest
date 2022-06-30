@@ -92,6 +92,13 @@ let data2 = [
   }
 ];              
 
+let videoSource = new Array();
+let i = 0;
+videoSource = data1;
+const videoCount = videoSource.length;
+const vid = document.getElementById("myVideo");
+document.getElementById('myVideo').addEventListener('ended', myHandler, false);
+
 
 document.getElementById("filepicker").addEventListener("change", function(event) {
   let files = event.target.files;
@@ -118,36 +125,47 @@ function makeOption() {
   return options;
 }
 
-function playUrl(url) {
-  let options = makeOption();
-//  let vid = document.getElementById('myVideo').addEventListener('ended', , false);
-  let vid = document.getElementById('myVideo');
-  let source = document.getElementById('playersource');
-
-  document.getElementById('outputDiv').textContent = url;
-  source.setAttribute("src", url);
-  source.setAttribute('type', 'video/mp4;mediaOption=' + escape(JSON.stringify(options)));
-
+function videoPlay(videoNum) {
+  console.log(`${mediaFilePath}${videoSource[videoNum].name}`);
+  vid.setAttribute("src", `${mediaFilePath}${videoSource[videoNum].name}`);
+  vid.autoplay = false;
   vid.load();
-  var playPromise = vid.play();
-  if (playPromise != undefined) {
-    playPromise.then(_ => {
-      document.getElementById('outputDiv').textContent = "Playing...";
-    })
-    .catch(error => {
-      document.getElementById('outputDiv').textContent = "Failed...";
-    });
-  } 
 }
 
+function myHandler() {
+  console.log("myHandler(i):"+ i );
+  i++;
+  if (i == videoCount) {
+      i = 0;
+      videoPlay(i);
+  } else {
+      videoPlay(i);
+  }
+}
+
+function ensureVideoPlays() {
+
+  if(!vid) return;
+  
+  const promise = vid.play();
+  if(promise !== undefined){
+      promise.then(() => {
+          console.log("promise then" + promise);
+          // Autoplay started
+      }).catch(error => {
+          console.log("promise catch" + promise);
+          // Autoplay was prevented.
+          vid.muted = true;
+          vid.play();
+      });
+  }
+}
+
+
 function playDefaultVideo() {
-  let playlist = data1;
-  let url = '';
 
-  playUrl(`${mediaFilePath}${playlist[2].name}`);
-  playUrl(`${mediaFilePath}${playlist[1].name}`);
-  playUrl(`${mediaFilePath}${playlist[0].name}`);
-
+  videoPlay(0); // load the first video
+  ensureVideoPlays(); // play the video automatically
 
 }
 
@@ -164,22 +182,7 @@ function getCheckboxValue() {
 }
 
 function runTestScenario() {
-  let vid = document.getElementById("myVideo");
   let options = makeOption();
-  var videoSource = new Array();
-/*
-  let url = 'https://raw.githubusercontent.com/jhongsuk/mediatest/main/testmediafile.xml'
-
-  fetch(url)
-  .then(response=>response.text())
-  .then(data=>{
-    let parse = new DOMParser();
-    let xmlDoc = parse.parseFromString(data,'text/xml');
-    document.getElementById('outputDiv').textContent = data;
-    videoSource = buildPlayList(xmlDoc);
-    startPlayback(videoSource);
-  });
-*/
   
   console.log(data[0].id);
   console.log(data[0].name);
