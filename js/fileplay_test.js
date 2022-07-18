@@ -2,6 +2,8 @@
 let mediaFilePath = "/home/hong/testmedia/";
 //let mediaFilePath = "C:/TestMedia/";
 
+let jsondata = [];
+
 let data1 = [
   {
     "id": 1, 
@@ -100,15 +102,27 @@ const vid = document.getElementById("myVideo");
 document.getElementById('myVideo').addEventListener('ended', myHandler, false);
 
 
+function updatelist(id, fileName) {
+  var aJson = new Object();
+  aJson.id = id;
+  aJson.name = fileName;
+  
+  return JSON.stringify(aJson)
+}
+
 document.getElementById("filepicker").addEventListener("change", function(event) {
   let files = event.target.files;
   let result = '';
+  let listinfo = '';
 
   for (let i=0; i<files.length; i++) {
-    result += files[i].webkitRelativePath;
+    listinfo += updatelist(i, files[i].name);
+    result += files[i].name;
     result += '\n';
   };
+  jsondata = JSON.stringify(listinfo);
   document.getElementById('outputDiv').textContent = result;
+  console.log(jsondata);
 }, false);
 
 function makeOption() {
