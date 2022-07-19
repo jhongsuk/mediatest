@@ -2,7 +2,7 @@
 let mediaFilePath = "/home/hong/testmedia/";
 //let mediaFilePath = "C:/TestMedia/";
 
-let jsondata = [];
+let scandata = [];
 
 let data1 = [
   {
@@ -95,9 +95,10 @@ let data2 = [
 ];              
 
 let videoSource = new Array();
-let i = 0;
 videoSource = data1;
-const videoCount = videoSource.length;
+let videoCount = videoSource.length;
+let i = 0;
+
 const vid = document.getElementById("myVideo");
 document.getElementById('myVideo').addEventListener('ended', myHandler, false);
 
@@ -105,24 +106,27 @@ document.getElementById('myVideo').addEventListener('ended', myHandler, false);
 function updatelist(id, fileName) {
   var aJson = new Object();
   aJson.id = id;
+  aJson.container = '';
+  aJson.video = '';
+  aJson.audio = '';
+  aJson.resolution = '';
+  aJson.framerate = '';
+  aJson.duration = '';
   aJson.name = fileName;
-  
+  aJson.others = '';
+
   return JSON.stringify(aJson)
 }
 
 document.getElementById("filepicker").addEventListener("change", function(event) {
   let files = event.target.files;
   let result = '';
-  let listinfo = '';
 
   for (let i=0; i<files.length; i++) {
-    listinfo += updatelist(i, files[i].name);
-    result += files[i].name;
-    result += '\n';
+    result += updatelist(i, files[i].name);
   };
-  jsondata = JSON.stringify(listinfo);
-  document.getElementById('outputDiv').textContent = result;
-  console.log(jsondata);
+  scandata = JSON.stringify(result);
+  document.getElementById('outputDiv').textContent = scandata;
 }, false);
 
 function makeOption() {
@@ -175,12 +179,14 @@ function ensureVideoPlays() {
   }
 }
 
-
 function playDefaultVideo() {
-
   videoPlay(0); // load the first video
   ensureVideoPlays(); // play the video automatically
+}
 
+function playScanVideo(){
+  videoPlay(0);
+  ensureVideoPlays();
 }
 
 function getCheckboxValue() {
